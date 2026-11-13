@@ -3,3 +3,6 @@
 .claude-plugin/types/
 .mcpb-cache/
 tsconfig.json
+# Private data for the optional owner snapshot viewer.
+companion/owner-snapshot.json
+companion/snapshots/

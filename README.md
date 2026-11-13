@@ -1,5 +1,13 @@
 # lot-map
 
+## This fork
+
+This fork preserves [alexeyw/lot-map](https://github.com/alexeyw/lot-map)'s session plugin and adds an optional [owner snapshot viewer](companion/README.md). The viewer is a separate read-only page, not a collector or a live integration. No private owner data is included. [Fork research](docs/FORK_REVIEW.md) compares the useful additions found across the public fork network.
+
+To load this checkout's session plugin for one session, use `claude --plugin-dir /path/to/lot-map`. The marketplace commands below install the original upstream plugin.
+
+## Upstream plugin
+
 A mod for Claude Code: a live map of the work, in a pane beside the chat. Every tool call, model step, hook and skill sends a pulse from the centre to its station, so you see memory, files, shell, web and agents at work instead of reading a list of commands.
 
 ![The map during a work session](docs/demo.gif)
