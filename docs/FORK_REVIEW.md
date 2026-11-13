@@ -39,6 +39,27 @@ Samuel's companion uses Node built-ins and the existing renderer, requires Node 
 
 Owner relationships should be a distinct view: a session's tool stations, subagents, declared relationships, observed messages and completed outcomes mean different things. Evidence age and missing coverage must remain visible.
 
+## Adopted in this fork
+
+The plugin itself (`hooks/`, `.claude-plugin/`, `types/`) is kept identical to upstream 0.6.0, so upstream releases merge without conflicts. What was adopted lives in `companion/session-frame.ts`, a read-only command that draws one named transcript with the plugin's own renderer ([usage and contract](../companion/README.md#session-frame)):
+
+| Idea | From | How it is used here |
+| --- | --- | --- |
+| The map in a browser: a frame of `{svg, now, session, rows}` built from a transcript | [Samuel-VV-NL](https://github.com/Samuel-VV-NL/lot-map/blob/main/companion/server.mjs) | The frame contract and the resolver that lets Node load the plugin's files. No server, no polling, no browser launch: the caller asks for a frame when it wants one. |
+| Viewing another, explicitly named session | [chrisw-impactlab: dev-session-viewer](https://github.com/chrisw-impactlab/lot-map/tree/dev-session-viewer#viewer) | The transcript is always named by the caller. The command never picks "the newest session" and never lists a folder. Helper calls start from the Agents station. |
+| Unfinished work that has gone quiet reads as unknown, not as running | [isbeorn](https://github.com/isbeorn/lot-map) | `activity: unknown` and `stale: true` after ten minutes without a new row; the picture is drawn still, as of the last row. |
+
+Left out, with the reason:
+
+- **Timing lanes** (isbeorn): upstream has no lane renderer, so this would be a second drawing to maintain. The rows carry start time and duration, which a page can lay out itself.
+- **Station drilldowns** (davidkinsler): they change the plugin's pane. A page that shows the frame can open a row on its own.
+- **Other providers and terminals** (Command Mesh, pi/omp, Herdr, Antigravity, terminal rasters): separate integrations with their own processes and dependencies.
+- **Collectors that guess** (newest-session targeting, timeout-based completion, attribution to the last provider): they state more than the records prove.
+- **`askWhy`** (zeeneddie): it changes the system prompt, and the mod must watch and change nothing.
+- **Open upstream pull requests** ([#49](https://github.com/alexeyw/lot-map/pull/49), [#42](https://github.com/alexeyw/lot-map/pull/42)): they belong to upstream's own review; they arrive here with the release that merges them.
+
+Checked on Claude Code 2.1.323/Linux and Node 24: the plugin's 71 tests and validation still pass with the companion in the tree; the command's 12 tests pass; a 115 MB transcript is drawn in under a second from its last 8 MiB.
+
 ## Verification boundary
 
 Fork findings above come from source, diffs, documentation and PR discussions; these extensions were **not installed or runtime-validated in this review**.

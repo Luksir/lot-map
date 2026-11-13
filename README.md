@@ -2,7 +2,12 @@
 
 ## This fork
 
-This fork preserves [alexeyw/lot-map](https://github.com/alexeyw/lot-map)'s session plugin and adds an optional [owner snapshot viewer](companion/README.md). The viewer is a separate read-only page, not a collector or a live integration. No private owner data is included. [Fork research](docs/FORK_REVIEW.md) compares the useful additions found across the public fork network.
+This fork preserves [alexeyw/lot-map](https://github.com/alexeyw/lot-map)'s session plugin unchanged and adds two read-only companions beside it, both in [`companion/`](companion/README.md):
+
+- **Session frame**: `companion/session-frame.ts` turns one named Claude Code transcript into the map's picture and rows as JSON, drawn by the plugin's own code. A web page can show any session as a live map without loading the plugin into that session. It brings together ideas from three forks (a browser view of the map, viewing a named session, and showing stale unfinished work as unknown); [what was adopted and what was left out](docs/FORK_REVIEW.md#adopted-in-this-fork).
+- **Owner snapshot viewer**: a page that shows long-running sessions and the recorded connections between them in the map's visual language.
+
+Neither is a collector, a server or a background process, and no private data is included. [Fork research](docs/FORK_REVIEW.md) compares the useful additions found across the public fork network.
 
 To load this checkout's session plugin for one session, use `claude --plugin-dir /path/to/lot-map`. The marketplace commands below install the original upstream plugin.
 
